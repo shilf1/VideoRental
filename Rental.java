@@ -1,6 +1,8 @@
 import java.util.Date;
 
 public class Rental {
+	public static final int MILLISECOND_PER_DAY = 1000 * 60 * 60 * 24;
+
 	private Video video ;
 	private int status ; // 0 for Rented, 1 for Returned
 	private Date rentDate ;
@@ -26,7 +28,7 @@ public class Rental {
 
 	public void returnVideo() {
 		if ( status == 1 ) {
-			this.status = 1; // useless code
+			this.status = 1;
 			returnDate = new Date() ;
 		}
 	}
@@ -46,19 +48,13 @@ public class Rental {
 		this.returnDate = returnDate;
 	}
 
+
+
 	public int getDaysRentedLimit() {
 		int limit = 0 ;
 		int daysRented ;
 
-		long diff = 0;
-		if (getStatus() == 1) { // returned Video // duplicate logic
-			diff = returnDate.getTime();
-
-		} else { // not yet returned
-			diff = new Date().getTime();
-		}
-		diff -= rentDate.getTime();
-		daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
+		daysRented = getDaysRented();
 
 
 		if ( daysRented <= 2) return limit ;
@@ -69,5 +65,19 @@ public class Rental {
 			case Video.DVD: limit = 2 ; break ;
 		}
 		return limit ;	
+	}
+
+	public int getDaysRented() {
+
+		int daysRented;
+		long diff = 0;
+		if (getStatus() == 1) {
+			diff = returnDate.getTime();
+		} else { // not yet returned
+			diff = new Date().getTime();
+		}
+		diff -= rentDate.getTime();
+		daysRented = (int) (diff / MILLISECOND_PER_DAY) + 1;
+		return daysRented;
 	}
 }
