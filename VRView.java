@@ -25,7 +25,7 @@ public class VRView {
 		System.out.println("List of videos");
 		
 		for ( Video video: vr.videos ) {
-			System.out.println("Price code: " + video.getPriceCode() +"\tTitle: " + video.getTitle()) ;
+			System.out.println(" Price code: " + video.getPriceCode() +"\tTitle: " + video.getTitle()) ;
 		}
 		
 		System.out.println("End of list");
@@ -40,24 +40,23 @@ public class VRView {
 	}
 
 	public void listOneCustomer(Customer customer) {
-		System.out.println("Name: " + customer.getName() +
+		System.out.println(" Name: " + customer.getName() +
 				"\tRentals: " + customer.getRentals().size()) ;
 		for ( Rental rental: customer.getRentals() ) {
 			System.out.print("\tTitle: " + rental.getVideo().getTitle() + " ") ;
 			System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode()) ;
 		}
+		System.out.print("");
 	}
 
 	public int getPriceCode(VRController vr) {
 		System.out.println("Enter price code( 1 for Regular, 2 for New Release ):") ;
-		int priceCode = scanner.nextInt();
-		return priceCode;
+		return scanner.nextInt();
 	}
 
 	public int getVideoType(VRController vr) {
 		System.out.println("Enter video type( 1 for VHD, 2 for CD, 3 for DVD ):") ;
-		int videoType = scanner.nextInt();
-		return videoType;
+		return scanner.nextInt();
 	}
 
 	/*
@@ -84,9 +83,12 @@ public class VRView {
 	
 	/// 중복 로직을 메소드로 분리
 	public String getCustomerName() {
-		System.out.println("Enter customer name: ") ;
-		
+		System.out.println("Enter customer name: ") ;	
 		return scanner.next() ;
+	}
+
+	public void printCustomerReport(String result) {
+		System.out.println(result);
 	}
 	
 }

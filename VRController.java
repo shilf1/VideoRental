@@ -95,9 +95,9 @@ public class VRController {
 		customers.add(james) ;
 		customers.add(brown) ;
 		
-		/// v1, v2 대신 의미 있는 변수 이름 사용
-		Video v1 = new Video("v1", Video.CD, Video.REGULAR, new Date()) ;
-		Video v2 = new Video("v2", Video.DVD, Video.NEW_RELEASE, new Date()) ;
+		/// Video 의 서브클래스로 대체
+		Video v1 = new CD("v1", Video.REGULAR, new Date()) ;
+		Video v2 = new DVD("v2", Video.NEW_RELEASE, new Date()) ;
 		videos.add(v1) ;
 		videos.add(v2) ;
 		
@@ -125,7 +125,7 @@ public class VRController {
 			noCustomerFound();
 		} else {
 			String result = foundCustomer.getReport() ;
-			System.out.println(result);
+			ui.printCustomerReport(result);
 		}
 	}
 
@@ -179,9 +179,22 @@ public class VRController {
 			int priceCode = ui.getPriceCode(this);
 		
 			Date registeredDate = new Date();
-			Video video = new Video(title, videoType, priceCode, registeredDate) ;
+			
+			/// 비디오 타입별 클라스 생성하기 위한 팩토리 메소드 추가
+			Video video = factoryVideo(title, videoType, priceCode, registeredDate);
 			videos.add(video) ;
 		}
+	}
+
+	/// 서브클래싱 적용에 따라 팩토리 메소드 필요
+	private Video factoryVideo(String title, int videoType, int priceCode, Date registeredDate) {
+		switch(videoType) {
+			case 1: return new VHS(title, priceCode, registeredDate) ;
+			case 2: return new CD(title, priceCode, registeredDate) ;
+			case 3: return new DVD(title, priceCode, registeredDate) ;
+			default: return null;
+		}
+
 	}
 
 }
